@@ -1,0 +1,11 @@
+# Dependencias
+node_modules/
+
+# Archivos de sesión (Secretos)
+data/
+
+# Variables de entorno (Secretos)
+.env
+
+# Archivos de compilación de TypeScript
+dist/

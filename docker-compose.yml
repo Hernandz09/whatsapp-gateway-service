@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    ports: ["8080:8080"]
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - SESSION_DIR=/data/sessions
+    volumes:
+      - ./data/sessions:/data/sessions
+    depends_on: [redis]
+
+  # El worker lo usaremos en H2, pero lo dejamos definido
+  worker:
+    build: .
+    # El comando se sobreescribe para H2
+    command: node dist/worker.js
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - SESSION_DIR=/data/sessions
+    volumes:
+      - ./data/sessions:/data/sessions
+    depends_on: [redis]
+
+  redis:
+    image: redis:7-alpine

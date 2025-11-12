@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    /* Opciones del Proyecto */
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist",
+    "rootDir": "./src",
+
+    /* Opciones Estrictas */
+    "strict": true,
+
+    /* Opciones de Módulos */
+    "esModuleInterop": true,
+
+    /* Opciones Avanzadas */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*"] // Solo compilar archivos dentro de la carpeta src
+}
