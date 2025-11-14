@@ -1,0 +1,175 @@
+{
+  "info": {
+    "_postman_id": "whatsapp-ghl-h1",
+    "name": "WhatsApp GHL Gateway - H1",
+    "description": "Colección completa para probar el Hito 1 del gateway WhatsApp",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": [""]
+        },
+        "description": "Verifica que el servidor esté corriendo"
+      }
+    },
+    {
+      "name": "1. Generar QR Code",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/wa/qr/wa-01",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wa", "qr", "wa-01"]
+        },
+        "description": "Genera el QR code para conectar WhatsApp. Copia el valor de 'qr' y usa https://www.qr-code-generator.com/ para generar el QR visual."
+      }
+    },
+    {
+      "name": "2. Verificar Estado",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/wa/status/wa-01",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wa", "status", "wa-01"]
+        },
+        "description": "Verifica el estado de conexión. Debe responder 'connected' después de escanear el QR."
+      }
+    },
+    {
+      "name": "3. Listar Instancias",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/wa/instances",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wa", "instances"]
+        },
+        "description": "Lista todas las instancias activas con su estado"
+      }
+    },
+    {
+      "name": "4. Enviar Texto",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"instanceId\": \"wa-01\",\n  \"to\": \"+51999999999\",\n  \"type\": \"text\",\n  \"message\": \"Hola desde el gateway GHL 🚀\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/send",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "send"]
+        },
+        "description": "Envía un mensaje de texto. CAMBIAR el número +51999999999 por tu número de prueba."
+      }
+    },
+    {
+      "name": "5. Enviar Imagen",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"instanceId\": \"wa-01\",\n  \"to\": \"+51999999999\",\n  \"type\": \"image\",\n  \"mediaUrl\": \"https://picsum.photos/400\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/send",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "send"]
+        },
+        "description": "Envía una imagen. CAMBIAR el número +51999999999 por tu número de prueba."
+      }
+    },
+    {
+      "name": "6. Enviar Múltiples Textos (Rate Limit)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"instanceId\": \"wa-01\",\n  \"to\": \"+51999999999\",\n  \"type\": \"text\",\n  \"message\": \"Mensaje de prueba rate limiting\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/send",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "send"]
+        },
+        "description": "Ejecuta este request 3 veces seguidas para probar el rate limiting. Verás delays de ~3.5 segundos entre envíos."
+      }
+    },
+    {
+      "name": "7. Logout (Desconectar)",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/wa/logout/wa-01",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8080",
+          "path": ["api", "wa", "logout", "wa-01"]
+        },
+        "description": "Cierra la sesión de WhatsApp. Necesitarás volver a escanear el QR."
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "instanceId",
+      "value": "wa-01",
+      "type": "string"
+    },
+    {
+      "key": "phoneNumber",
+      "value": "+51999999999",
+      "type": "string",
+      "description": "CAMBIAR por tu número de prueba"
+    }
+  ]
+}
